@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pizza House | Order Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('https://img.freepik.com/free-vector/hand-drawn-pizza-pattern-background_23-2150905263.jpg?size=626&ext=jpg&ga=GA1.1.2082370165.1710806400&semt=ais'); /* Background image for the entire screen */; 
+      background-repeat: no-repeat;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: rgba(255, 255, 255, 0.8); /* Adjust the opacity as needed */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="password"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section id="welcome">
+      <h1>Welcome to Pizza House</h1>
+      <p>Enjoy delicious pizzas delivered to your doorstep!</p>
+      <button onclick="showLogin()">Login</button>
+    </section>
+
+    <section id="login" style="display:none;">
+      <h2>Login to Pizza House</h2>
+      <form id="loginForm" onsubmit="return validateForm()">
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <div class="form-group">
+          <label for="otp">OTP:</label>
+          <input type="text" id="otp" name="otp" required>
+          <button type="button" onclick="generateOTP()">Get OTP</button>
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </section>
+
+    <section id="pizza-details" style="display:none;">
+      <h2>Pizza Menu</h2>
+      <p>Choose from our delicious selection of pizzas:</p>
+      <ul>
+        <li><button onclick="selectPizza('Margherita', 8.99)">Margherita - $8.99</button></li>
+        <li><button onclick="selectPizza('Pepperoni', 9.99)">Pepperoni - $9.99</button></li>
+        <li><button onclick="selectPizza('Hawaiian', 10.99)">Hawaiian - $10.99</button></li>
+        <li><button onclick="selectPizza('Veggie Supreme', 11.99)">Veggie Supreme - $11.99</button></li>
+      </ul>
+      <p id="selected-pizza"></p>
+      <p id="total-cost"></p>
+      <button onclick="confirmOrder()">Confirm Order</button>
+    </section>
+
+    <section id="order-confirmation" style="display:none;">
+      <h2>Order Confirmation!!!</h2>
+      <p>Your order has been successfully placed!!</p>
+    </section>
+    
+    <section id="thank-you" style="display:none;">
+      <h2>Thank You for Ordering from pizza house!!</h2>
+    </section>
+  </div>
+
+  <script>
+    var storedUsername = ""; // Variable to store previously entered username
+    var storedPassword = ""; // Variable to store previously entered password
+    var generatedOTP = null;
+    var totalCost = 0;
+
+    function validateForm() {
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value; // Retrieve password input
+    var otp = document.getElementById("otp").value;
+
+    // Check if username, password, and OTP match the stored values
+    if (username && parseInt(otp) === generatedOTP) {
+        document.getElementById("welcome").style.display = "none";
+        document.getElementById("login").style.display = "none";
+        document.getElementById("pizza-details").style.display = "block";
+        return false;
+    } else {
+        alert("Invalid OTP or missing fields.");
+        return false;
+    }
+}
+
+    
+
+
+
+    function showLogin() {
+      document.getElementById("welcome").style.display = "none";
+      document.getElementById("login").style.display = "block";
+    }
+
+    function generateOTP() {
+      generatedOTP = Math.floor(100000 + Math.random() * 900000);
+      alert("Your OTP is: " + generatedOTP);
+    }
+
+    function selectPizza(pizza, cost) {
+      document.getElementById("selected-pizza").innerText = "You selected: " + pizza;
+      totalCost += cost;
+      document.getElementById("total-cost").innerText = "Total Cost: $" + totalCost.toFixed(2);
+    }
+
+    function confirmOrder() {
+      document.getElementById("pizza-details").style.display = "none";
+      document.getElementById("order-confirmation").style.display = "block";
+      document.getElementById("thank-you").style.display = "block";
+    }
+  </script>
+</body>
+</html>
